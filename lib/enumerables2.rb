@@ -5,22 +5,27 @@ require 'byebug'
 # Define a method that returns the sum of all the elements in its argument (an
 # array of numbers).
 def array_sum(arr)
+  arr.inject(0,:+)
 end
 
 # Define a method that returns a boolean indicating whether substring is a
 # substring of each string in the long_strings array.
 # Hint: you may want a sub_tring? helper method
 def in_all_strings?(long_strings, substring)
+  long_strings.all? {|string| string.include?(substring)}
 end
 
 # Define a method that accepts a string of lower case words (no punctuation) and
 # returns an array of letters that occur more than once, sorted alphabetically.
 def non_unique_letters(string)
+  string.delete(" ").chars.select {|char| string.count(char) > 1}.uniq
 end
 
 # Define a method that returns an array of the longest two words (in order) in
 # the method's argument. Ignore punctuation!
 def longest_two_words(string)
+  words = string.split.sort_by {|word| word.length}
+  words[-2 ..-1]
 end
 
 # MEDIUM
@@ -28,15 +33,19 @@ end
 # Define a method that takes a string of lower-case letters and returns an array
 # of all the letters that do not occur in the method's argument.
 def missing_letters(string)
+  alpha = ("a".."z").to_a
+  alpha.select {|letter| !string.include?(letter)}
 end
 
 # Define a method that accepts two years and returns an array of the years
 # within that range (inclusive) that have no repeated digits. Hint: helper
 # method?
 def no_repeat_years(first_yr, last_yr)
+  (first_yr..last_yr).select {|year| not_repeat_year?(year)}
 end
 
-def not_repeat_year?(year)
+def not_repeat_year?(year) #1234 true
+  year.to_s.chars == year.to_s.chars.uniq 
 end
 
 # HARD

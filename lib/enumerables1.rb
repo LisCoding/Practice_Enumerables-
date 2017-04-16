@@ -3,22 +3,28 @@
 # Define a method that returns an array of only the even numbers in its argument
 # (an array of integers).
 def get_evens(arr)
+  arr.select {|num| num.even?}
 end
 
 # Define a method that returns a new array of all the elements in its argument
 # doubled. This method should *not* modify the original array.
 def calculate_doubles(arr)
+  arr.map {|num| num * 2 }
 end
 
 # Define a method that returns its argument with all the argument's elements
 # doubled. This method should modify the original array.
 def calculate_doubles!(arr)
+  arr.map! {|num| num * 2 }
 end
 
 # Define a method that returns the sum of each element in its argument
 # multiplied by its index. array_sum_with_index([2, 9, 7]) => 23 because (2 * 0) +
 # (9 * 1) + (7 * 2) = 0 + 9 + 14 = 23
 def array_sum_with_index(arr)
+  sum = 0
+  arr.each_with_index {|num, idx| sum += (num * idx)}
+  sum
 end
 
 # MEDIUM
@@ -27,6 +33,7 @@ end
 # the actual retail price without going over that price. Assume there is always
 # at least one bid below the retail price.
 def price_is_right(bids, actual_retail_price)
+  bids.select {|bid| bid < actual_retail_price}.sort[-1]
 end
 
 # Given an array of numbers, return an array of those numbers that have at least
@@ -35,9 +42,11 @@ end
 # 2, 4, 8, 16) and the others have fewer than five factors. Consider writing a
 # helper method num_factors
 def at_least_n_factors(numbers, n)
+  numbers.select {|num| num_factors(num).length > 4 }
 end
 
 def num_factors(number)
+   (1..number).reduce([]){|factors, i| number % i == 0 ? factors << i : factors}
 end
 
 # HARD
@@ -46,9 +55,20 @@ end
 # words whose vowels appear in order. You may wish to write a helper method:
 # ordered_vowel_word?
 def ordered_vowel_words(words)
+  words.select {|word| ordered_vowel_word?(word)}
 end
 
-def ordered_vowel_word?(word)
+def ordered_vowel_word?(word) #hello => true ; oats => false
+  vowels = "aeiou"
+  vowel_order = "a"
+  word.chars do |char|
+    if vowels.include?(char) && char.ord < vowel_order.ord
+      return false
+    elsif vowels.include?(char)
+      vowel_order = char
+    end
+  end
+  true
 end
 
 # Given an array of numbers, return an array of all the products remaining when
@@ -64,6 +84,8 @@ end
 # 10, because you take out 3, leaving 1 * 2 * 5 6, because you take out 5,
 # leaving 1 * 2 * 3
 def products_except_me(numbers)
+  products_array = []
+
 end
 
 def array_product(array)
